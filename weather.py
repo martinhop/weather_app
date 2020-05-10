@@ -1,6 +1,8 @@
 import tkinter as tk
 import requests
 
+#uses api to call for weather data by city from openweather
+
 def get_weather(city):
     weather_key = 'ef248c4221ff37829e6e2eed13b3b167'
     url = 'https://api.openweathermap.org/data/2.5/weather'
@@ -10,6 +12,7 @@ def get_weather(city):
 
     weather_output['text'] = format_response(weather)
 
+#formats output to display weather to user
 
 def format_response(weather):
     try:
@@ -21,20 +24,18 @@ def format_response(weather):
     except:
         return 'Location not found'
 
-#api key = ef248c4221ff37829e6e2eed13b3b167
-#url = api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}
-
-#location id = val/wxfcs/all/datatype/locationId
-
-
+#GUI setup
 
 width = 800
 height = 800
 
-
 root = tk.Tk(className= 'Weather App')
 root.geometry("500x500")
 root.resizable(0, 0)
+
+background_image = tk.PhotoImage(file='./bg.png')
+background_label = tk.Label(root, image = background_image)
+background_label.place(relwidth = 1, relheight = 1)
 
 city_bg = tk.Frame(root, bg = '#cfeaff', bd = 5)
 city_bg.place(relx = 0.5, rely = 0.05, relwidth = 0.9, relheight = 0.1, anchor = 'n')
