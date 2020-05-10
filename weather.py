@@ -1,7 +1,36 @@
 import tkinter as tk
+import requests
+
+def get_weather(city):
+    weather_key = 'ef248c4221ff37829e6e2eed13b3b167'
+    url = 'https://api.openweathermap.org/data/2.5/weather'
+    params = {'APIkey': weather_key, 'q': city, 'units': 'Metric'}
+    response = requests.get(url, params = params)
+    weather = response.json()
+
+    weather_output['text'] = format_response(weather)
+
+
+def format_response(weather):
+    try:
+        location = weather['name']
+        descrip = weather['weather'][0]['description']
+        loc_temp = weather['main']['temp']
+
+        return 'Location: ' + location + '\n' + 'Current Conditions: ' + descrip + '\n' + 'Temperature: ' + str(loc_temp)
+    except:
+        return 'Location not found'
+
+#api key = ef248c4221ff37829e6e2eed13b3b167
+#url = api.openweathermap.org/data/2.5/weather?q={city name}&appid={your api key}
+
+#location id = val/wxfcs/all/datatype/locationId
+
+
 
 width = 800
 height = 800
+
 
 root = tk.Tk(className= 'Weather App')
 root.geometry("500x500")
@@ -13,7 +42,7 @@ city_bg.place(relx = 0.5, rely = 0.05, relwidth = 0.9, relheight = 0.1, anchor =
 city_enter = tk.Entry(city_bg)
 city_enter.place(relx = 0.01, rely = 0.1, relwidth = 0.65, relheight = 0.8)
 
-city_button = tk.Button(city_bg, text = "Get Weather")
+city_button = tk.Button(city_bg, text = "Get Weather", command = lambda: get_weather(city_enter.get()))
 city_button.place(relx = 0.67, rely = 0.1, relwidth = 0.31, relheight = 0.8)
 
 weather_frame = tk.Frame(root, bg = '#cfeaff', bd = 5)
